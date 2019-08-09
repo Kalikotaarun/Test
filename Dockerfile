@@ -1,4 +1,3 @@
-run echo "test"
 docker login -u $NUSERNAME -p $NPASSWORD ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083/repository/devsecopsrepo/
 docker pull $docker_repo/winmsbuildv1
 
