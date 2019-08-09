@@ -1,11 +1,18 @@
 pipeline {
 
     agent any
+	
+	 environment {
+      docker_repo = 'ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083'
+      demo_app_tag = 'shopping-cart:dev'
+      TARGETCONTAINER='demojavaapp'
+      PORTNO=8070
+    }
 
     stages { 
 				stage('Test') {
 				steps {
-					docker login -u $NUSERNAME -p $NPASSWORD ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083/repository/devsecopsrepo/
+					docker login -u $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/
 					docker pull $docker_repo/winmsbuildv1
 
 					set +e
