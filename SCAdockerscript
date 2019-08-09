@@ -18,7 +18,6 @@ pipeline {
 					set +e
 					docker stop -t 0 winfortifysca
 					docker rm winfortifysca
-					# docker rmi $docker_repo/winmsbuildv1
 					docker system prune -f
 					set -e
 
