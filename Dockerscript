@@ -3,7 +3,7 @@ pipeline {
     agent any
     
     environment {
-      docker_repo = 'http://ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083'
+      docker_repo = 'http://ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8081'
       /*demo_app_tag = 'Test:dev'*/
       TARGETCONTAINER='winfortifysca'
 	  NUSERNAME='akalikota'
