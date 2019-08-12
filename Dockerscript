@@ -46,6 +46,8 @@ pipeline {
 				 echo 'Listing the images'
 				 
 				 docker images
+				 
+				 '''
 				 }
 			}
 
