@@ -1,0 +1,100 @@
+pipeline {
+
+    agent any
+    
+    environment {
+      docker_repo = 'ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083'
+      demo_app_tag = 'Test:dev'
+      TARGETCONTAINER='winscamsbuild'
+    }
+
+    stages { 
+    
+        stage('Setup') {
+        
+            steps {
+              withCredentials([usernamePassword(credentialsId: 'Arun-GitHub_Credentials', usernameVariable: 'git_repo_user', passwordVariable: 'git_repo_password')]){
+                sh '''#!/bin/bash -l
+
+                git config --global credential.helper cache
+
+                git config --global user.email "${git_repo_user}@dummy.com"
+
+                git config --global user.name "${git_repo_user}"
+                
+                '''
+              }
+            }
+        }
+
+
+               
+
+
+        stage('Run SCA') {
+            
+            steps {
+              
+               sh '''#!/bin/bash -l
+
+                 echo "Starting Docker Image"
+                 
+                 set +e
+                 docker stop winscamsbuild
+                 docker system prune -f
+                 set -e
+				 
+				 docker login -u $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/
+				 docker pull $docker_repo/winmsbuildv1
+
+				 set +e
+				 docker stop -t 0 winfortifysca
+				 docker rm winfortifysca
+				 docker rmi $docker_repo/winmsbuildv1
+				 docker system prune -f
+				 set -e
+
+				 docker run --name winfortifysca -v "$WORKSPACE":/workspace -t -d $docker_repo/winmsbuildv1 -language dotnet -projectName dotnet -buildTool msbuild -buildFile /workspace/ArunVSTSApp.sln -projectRoot /workspace -jobName "$JOB_NAME" -buildNumber "$BUILD_NUMBER"
+				 docker stop -t 0 winfortifysca
+				 docker rm winfortifysca
+				 docker rmi $docker_repo/winmsbuildv1
+
+				 docker system prune -f
+                
+                 '''
+                 
+            }
+        }
+
+    
+    }
+
+    post {
+        always {            
+            sh '''#!/bin/bash -l
+                    echo 'Cleaning up the environment.'
+                    
+                    set +e
+                    docker stop $TARGETCONTAINER
+                    docker system prune -f
+                    set -e
+
+                    docker build -t $demo_app_tag -f docker/Dockerfile .
+        
+                '''
+        }
+        success {
+            println('I succeeeded!')
+        }
+        unstable {
+            println('I am unstable :/')
+        }
+        failure {
+            println('I failed :(')
+        }
+        changed {
+            println('Things were different before...')
+        }
+    }
+}
+
