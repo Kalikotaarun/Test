@@ -4,7 +4,7 @@ pipeline {
     
     environment {
       docker_repo = 'ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083'
-      demo_app_tag = 'Test:dev'
+      /*demo_app_tag = 'Test:dev'*/
       TARGETCONTAINER='winscamsbuild'
     }
 
@@ -38,12 +38,7 @@ pipeline {
                sh '''#!/bin/bash -l
 
                  echo "Starting Docker Image"
-                 
-                 set +e
-                 docker stop winscamsbuild
-                 docker system prune -f
-                 set -e
-				 
+			 
 				 docker login -u $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/
 				 docker pull $docker_repo/winmsbuildv1
 
