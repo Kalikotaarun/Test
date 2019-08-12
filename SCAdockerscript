@@ -14,19 +14,16 @@ pipeline {
 					docker login -u $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/
 					echo '$NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/'
 					docker pull $docker_repo/winmsbuildv1
-
 					set +e
 					docker stop -t 0 winfortifysca
 					docker rm winfortifysca
 				//	docker rmi $docker_repo/winmsbuildv1
 					docker system prune -f
 					set -e
-
 					docker run --name winfortifysca -t -d $docker_repo/winmsbuildv1 -language dotnet -projectName dotnet -buildTool msbuild -buildFile /workspace/ArunVSTSApp.sln -projectRoot /workspace -jobName "$JOB_NAME" -buildNumber "$BUILD_NUMBER"
 					docker stop -t 0 winfortifysca
 					docker rm winfortifysca
 					docker rmi $docker_repo/winmsbuildv1
-
 					# End of Fortify SCA Test
 					docker system prune -f
 					}
