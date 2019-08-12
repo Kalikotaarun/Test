@@ -47,7 +47,7 @@ pipeline {
 				 docker rm winfortifysca
 				 docker rmi $docker_repo/winmsbuildv1
 				 docker system prune -f
-				 set -e *?
+				 set -e */
 
 				 docker run --name winfortifysca -v "$WORKSPACE":/workspace -t -d $docker_repo/winmsbuildv1 -language dotnet -projectName dotnet -buildTool msbuild -buildFile /workspace/ArunVSTSApp.sln -projectRoot /workspace -jobName "$JOB_NAME" -buildNumber "$BUILD_NUMBER"
 				 docker stop -t 0 winfortifysca
