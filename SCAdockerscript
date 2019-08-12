@@ -10,7 +10,9 @@ pipeline {
     stages { 
 				stage('Test') {
 				steps {
+					echo 'Loging to the docker repository'
 					docker login -u $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/
+					echo '$NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/'
 					docker pull $docker_repo/winmsbuildv1
 
 					set +e
