@@ -30,6 +30,6 @@ pipeline {
 					# End of Fortify SCA Test
 					docker system prune -f
 					}
-					}
-					}
-					}
+				}
+			}
+		}
