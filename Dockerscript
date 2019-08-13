@@ -4,34 +4,11 @@ pipeline {
     
     environment {
       docker_repo = 'ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083'
-      // demo_app_tag = 'Test:dev' */
       TARGETCONTAINER='winfortifysca'
-	  // NUSERNAME='akalikota'
-	  // NPASSWORD='Deloitte@123'
 	  
     }
 
     stages { 
-    
-        stage('Setup') {
-        
-            steps {
-              withCredentials([usernamePassword(credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NUSERNAME', passwordVariable: 'NPASSWORD')]){
-                sh '''#!/bin/bash -l
-				
-				echo 'username is $NUSERNAME'
-				echo 'password is $NPASSWORD'
-
-                git config --global credential.helper cache
-
-                git config --global user.email "${git_repo_user}@dummy.com"
-
-                git config --global user.name "${git_repo_user}"
-                
-                '''
-              }
-            }
-        }
 		
 		stage('Pulling Docker Repo') {
             
@@ -39,23 +16,10 @@ pipeline {
               withCredentials([usernamePassword(credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NUSERNAME', passwordVariable: 'NPASSWORD')]){
                 sh '''#!/bin/bash -l
 				
-				echo 'username is $NUSERNAME'
-				echo 'password is $NPASSWORD'
-               
-
-                 echo "Starting Docker Image"
-				 
-				 echo "login command $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/"
-			 
 				 docker login -u $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/
-				 
-				 echo "docker pull $docker_repo/repository/devsecopsrepo/winmsbuildv1"
+				
 				 docker pull $docker_repo/repository/devsecopsrepo/winmsbuildv1
-				 
-				 echo 'Listing the images'
-				 
-				 docker images
-				 
+
 				 '''
 				 }
 			}
