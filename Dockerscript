@@ -16,7 +16,7 @@ pipeline {
         stage('Setup') {
         
             steps {
-              withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NUSERNAME', passwordVariable: 'NPASSWORD']]){
+              withCredentials([usernamePassword(credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NUSERNAME', passwordVariable: 'NPASSWORD')]){
                 sh '''#!/bin/bash -l
 				
 				echo 'username is $NUSERNAME'
@@ -36,8 +36,12 @@ pipeline {
 		stage('Pulling Docker Repo') {
             
             steps {
-              
-               sh '''#!/bin/bash -l
+              withCredentials([usernamePassword(credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NUSERNAME', passwordVariable: 'NPASSWORD')]){
+                sh '''#!/bin/bash -l
+				
+				echo 'username is $NUSERNAME'
+				echo 'password is $NPASSWORD'
+               
 
                  echo "Starting Docker Image"
 				 
