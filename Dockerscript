@@ -6,8 +6,8 @@ pipeline {
       docker_repo = 'ec2-13-59-73-13.us-east-2.compute.amazonaws.com:8083'
       /* demo_app_tag = 'Test:dev' */
       TARGETCONTAINER='winfortifysca'
-	  /* NUSERNAME='akalikota'
-	  NPASSWORD='Deloitte@123' */
+	  NUSERNAME='akalikota'
+	  NPASSWORD='Deloitte@123'
 	  
     }
 
@@ -16,7 +16,7 @@ pipeline {
         stage('Setup') {
         
             steps {
-              withCredentials([usernamePassword(credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NUSERNAME', passwordVariable: 'NPASSWORD')]){
+              withCredentials([usernamePassword(credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NNUSERNAME', passwordVariable: 'NNPASSWORD')]){
                 sh '''#!/bin/bash -l
 				
 				echo "username is $NUSERNAME"
