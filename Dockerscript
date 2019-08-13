@@ -41,7 +41,9 @@ pipeline {
 				 echo "login command $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/"
 			 
 				 docker login -u $NUSERNAME -p $NPASSWORD $docker_repo/repository/devsecopsrepo/
-				 docker pull $docker_repo/winmsbuildv1
+				 
+				 echo "docker pull $docker_repo/repository/devsecopsrepo/winmsbuildv1"
+				 docker pull $docker_repo/repository/devsecopsrepo/winmsbuildv1
 				 
 				 echo 'Listing the images'
 				 
