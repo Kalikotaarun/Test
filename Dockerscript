@@ -19,7 +19,7 @@ pipeline {
               withCredentials([usernamePassword(credentialsId: '729641e2-ae0a-42ac-ab48-defa894422e0', usernameVariable: 'NUSERNAME', passwordVariable: 'NPASSWORD')]){
                 sh '''#!/bin/bash -l
 				
-				echo "username is $USERNAME"
+				echo "username is $NUSERNAME"
 				echo "password is $NPASSWORD"
 
                 git config --global credential.helper cache
